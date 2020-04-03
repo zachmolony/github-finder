@@ -1,8 +1,16 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-export class UserItem extends Component {
+class UserItem extends Component {
+    static propTypes = {
+        login: PropTypes.string,
+        avatar_url: PropTypes.string,
+        html_url: PropTypes.string,
+    }
+
     render() {
         const { login, avatar_url, html_url } = this.props.user
+
         return (
             <div className="card text-center">
                 <img 

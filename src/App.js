@@ -1,12 +1,16 @@
 import React from 'react';
+
+import Navbar from './layout/Navbar'
+import Users from "./users/Users";
+
 import './App.css';
 
 class App extends React.Component {
-
-  render() {
+  render() { 
     return (
       <div className="App">
-        <h1>Github Finder</h1>
+        <Navbar />
+        <Users />
       </div>
     );
   }

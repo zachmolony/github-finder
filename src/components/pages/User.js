@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import Spinner from '../layout/Spinner'
+import Repos from '../repos/Repos'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
@@ -33,7 +34,7 @@ export default class User extends Component {
             public_gists,
             hireable
         } = this.props.user;
-        const { loading } = this.props;
+        const { loading, repos } = this.props;
 
         if (loading) return <Spinner />
 
@@ -81,6 +82,8 @@ export default class User extends Component {
                 <div className="badge badge-danger">Public Repos: {public_repos}</div>
                 <div className="badge badge-light">Public Gists: {public_gists}</div>
             </div>
+
+            <Repos repos={repos} />
         </Fragment>
     }
 }

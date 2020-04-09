@@ -6,7 +6,8 @@ import Alert from './components/layout/Alert';
 import Users from "./components/users/Users";
 import Search from './components/users/Search';
 import About from './components/pages/About';
-import User from './components/pages/User'
+import User from './components/pages/User';
+import GithubState from './context/github/githubContext';
 import './App.css';
 
 const App = () => {
@@ -64,38 +65,42 @@ const App = () => {
   };
 
   return (
-    <Router>
-      <div className="App">
-        <Navbar />
-        <div className="container">
-          <Alert alert={alert} />
-          <Switch>
-            <Route exact path="/" render= {props => (
-              <Fragment>
-                <Search 
-                  searchUsers={searchUsers} 
-                  clearUsers={clearUsers} 
-                  showClear={ users.length > 0 ? true : false } 
-                  setAlert={createAlert}
-                />
-                <Users loading={loading} users={users} />
-              </Fragment>
-            )} />
-            <Route exact path="/about" component={About} />
-            <Route exact path="/user/:login" render={props => (
-              <User 
-                {...props} 
-                getUser={getUser}
-                getUserRepos={getUserRepos}
-                repos={repos}
-                user={user} 
-                loading={loading} 
-              />
-            )} />
-          </Switch>
-        </div>
-      </div>
-    </Router>
+    <GithubState.Consumer>
+      {() => (
+        <Router>
+          <div className="App">
+            <Navbar />
+            <div className="container">
+              <Alert alert={alert} />
+              <Switch>
+                <Route exact path="/" render= {props => (
+                  <Fragment>
+                    <Search 
+                      searchUsers={searchUsers} 
+                      clearUsers={clearUsers} 
+                      showClear={ users.length > 0 ? true : false } 
+                      setAlert={createAlert}
+                    />
+                    <Users loading={loading} users={users} />
+                  </Fragment>
+                )} />
+                <Route exact path="/about" component={About} />
+                <Route exact path="/user/:login" render={props => (
+                  <User 
+                    {...props} 
+                    getUser={getUser}
+                    getUserRepos={getUserRepos}
+                    repos={repos}
+                    user={user} 
+                    loading={loading} 
+                  />
+                )} />
+              </Switch>
+            </div>
+          </div>
+        </Router>  
+      )}
+    </GithubState.Consumer>
   );
 }
 

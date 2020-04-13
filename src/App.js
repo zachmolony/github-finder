@@ -1,5 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import axios from 'axios';
+import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Alert from './components/layout/Alert';
@@ -7,47 +6,25 @@ import Users from "./components/users/Users";
 import Search from './components/users/Search';
 import About from './components/pages/About';
 import User from './components/pages/User';
+
 import GithubState from './context/github/GithubState';
+import AlertState from './context/alert/AlertState';
+
 import './App.css';
 
 const App = () => {
-  const [users, setUsers] = useState([]);
-  const [user, setUser] = useState({});
-  const [repos, setRepos] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [alert, setAlert] = useState(null);
-
-  // Fetch users
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      const res = await axios.get(`https://api.github.com/users?client_id=$
-        {process.env.REACT_APP_CLIENT_ID}&client_secret=$
-        {REACT_APP_CLIENT_SECRET}`)
-      setUsers(res.data)
-      setLoading(false)
-      // eslint-disable-next-line
-    };
-    fetchData()
-  }, []);
-
-  // Create alert
-  const createAlert = (msg, type) => {
-    setAlert({ msg, type });
-    setTimeout(() => setAlert(null), 2500)
-  };
-
   return (
     <GithubState>
+      <AlertState>
         <Router>
           <div className="App">
             <Navbar />
             <div className="container">
-              <Alert alert={alert} />
+              <Alert />
               <Switch>
                 <Route exact path="/" render= {props => (
                   <Fragment>
-                    <Search setAlert={createAlert} />
+                    <Search />
                     <Users />
                   </Fragment>
                 )} />
@@ -57,6 +34,7 @@ const App = () => {
             </div>
           </div>
         </Router>
+      </AlertState>
     </GithubState>
   );
 }

@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import GithubContext from '../../context/github/githubContext';
 
 const Search = ({ showClear, clearUsers, setAlert }) => {
-    const context = useContext(GithubContext);
-    console.log(context)
+    const githubContext = useContext(GithubContext);
 
     const [text, setText] = useState('');
 
@@ -13,7 +12,7 @@ const Search = ({ showClear, clearUsers, setAlert }) => {
         if (text.length === 0) {
             setAlert('Please enter something', 'danger')
         } else {
-            context.searchUsers(text);
+            githubContext.searchUsers(text);
             setText('');
         }
     };

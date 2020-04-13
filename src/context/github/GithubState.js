@@ -11,34 +11,48 @@ import {
 } from '../types';
 
 const GithubState = props => {
-    const initialState = {
-        users: [],
-        user: {},
-        repos:[],
-        loading: false
-    };
+  const initialState = {
+      users: [],
+      user: {},
+      repos:[],
+      loading: false
+  };
 
-    const [state, dispatch] = useReducer(GithubReducer, initialState);
+  const [state, dispatch] = useReducer(GithubReducer, initialState);
 
-    // search users
+  // search users
+  const searchUsers = async text => {
+    setLoading();
 
-    // set loading
+    const res = await axios.get(
+      `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
 
-    // clear users
+    dispatch({
+      type: SEARCH_USERS,
+      payload: res.data.items
+    });
+  };
 
-    // get user
+  // set loading
+  const setLoading = () => dispatch({ type: SET_LOADING });
 
-    // get repos
+  // clear users
 
-    return <GithubContext.Provider
-        value={{
-            users: state.users,
-            user: state.user,
-            repos: state.repos,
-            loading: state.loading
-        }}>
-        {props.children}
-    </GithubContext.Provider>    
+  // get user
+
+  // get repos
+
+  return <GithubContext.Provider
+      value={{
+          users: state.users,
+          user: state.user,
+          repos: state.repos,
+          loading: state.loading,
+          searchUsers
+      }}>
+      {props.children}
+  </GithubContext.Provider>    
 } 
 
 export default GithubState

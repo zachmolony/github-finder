@@ -31,22 +31,6 @@ const App = () => {
     fetchData()
   }, []);
 
-  // Get single user
-  const getUser = async username => {
-    setLoading(true);
-    const res = await axios.get(`https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_CLIENT_SECRET}`)
-    setUser(res.data)
-    setLoading(false);
-  };
-
-  // Get user's repos
-  const getUserRepos = async username => {
-    setLoading(true);
-    const res = await axios.get(`https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_CLIENT_SECRET}`)
-    setRepos(res.data);
-    setLoading(false);
-  };
-
   // Create alert
   const createAlert = (msg, type) => {
     setAlert({ msg, type });
@@ -68,16 +52,7 @@ const App = () => {
                   </Fragment>
                 )} />
                 <Route exact path="/about" component={About} />
-                <Route exact path="/user/:login" render={props => (
-                  <User 
-                    {...props} 
-                    getUser={getUser}
-                    getUserRepos={getUserRepos}
-                    repos={repos}
-                    user={user} 
-                    loading={loading} 
-                  />
-                )} />
+                <Route exact path="/user/:login" component={User} />
               </Switch>
             </div>
           </div>
